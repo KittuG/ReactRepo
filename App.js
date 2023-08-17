@@ -7,6 +7,8 @@ const parent = React.createElement("div",
         [React.createElement("h1",
             { id: "h1Id" }, "I'm inside H1"), React.createElement("h2",
                 { id: "h1Id" }, "I'm inside H2 at same lvl of h1")]));
+
+const jsxHeading = <h1>Hello form JSX learning!</h1>
 // const heading = React.createElement("h1", { id: "heading" }, "Hello from here");
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(parent);
+root.render(jsxHeading);
