@@ -1,14 +1,27 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-const parent = React.createElement("div",
-    { id: "parent" },
-    React.createElement("div",
-        { id: "child" },
-        [React.createElement("h1",
-            { id: "h1Id" }, "I'm inside H1"), React.createElement("h2",
-                { id: "h1Id" }, "I'm inside H2 at same lvl of h1")]));
 
-const jsxHeading = <h1>Hello form JSX learning!</h1>
+// Raect Element
+const jsxHeading = (<h1 className="header"
+    tabIndex={2}>Hello from JSX learning!</h1>
+)
+
+const Title = () => (<h1 className="header"
+    tabIndex={2}>Title from Funtional Component!</h1>)
+const title = <h1>Heading Component</h1>
+const data = 1000;
+// Funtional Component
+const Heading = () => {
+    return (
+        <div id="container">
+            <Title />
+            Title();
+            {title} - {data}
+            <h1 className="header"
+                tabIndex={2}>Hello from Funtional Component!</h1>
+        </div>
+    )
+}
 // const heading = React.createElement("h1", { id: "heading" }, "Hello from here");
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(jsxHeading);
+root.render(<Heading />);
