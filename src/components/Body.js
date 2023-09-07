@@ -1,21 +1,41 @@
 
 import ResCard from "./ResCard";
-import resObj from "../utils/mockData";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import Shimmer from "./Shimmer";
 const Body = () => {
-    const [resListHook, setResListHook] = useState(resObj);
+    const [resListHook, setResListHook] = useState([]);
+    const [filterText, setFilterText] = useState("");
+    const [filterResturant, setFilterResturant] = useState([]);
+    useEffect(() => {
+        fetchData();
+    }, [])
+    const fetchData = async () => {
+        const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+        const json = await data.json();
+        setResListHook(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        setFilterResturant(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    };
 
+    console.log(resListHook.length)
     return (
-        <div className="body">
-            <div className="filter">
-                <button className="filter-btn" onClick={() => { const filterData = resListHook.filter((data) => data.info.avgRating > 4.5); console.log(resListHook); setResListHook(filterData) }}>Top Rated Restaurant</button>
-            </div>
-            <div className="res-container">
-                {resListHook.map(data => <ResCard key={data.info.id} resData={data} />)}
+        resListHook.length === 0 ? <Shimmer /> :
+            <div className="body">
+                <div className="filter">
+                    <div>
+                        <input type="text" value={filterText} onChange={(e) => { setFilterText(e.target.value) }}></input>
+                        <button onClick={() => {
+                            const filteredData = resListHook.filter((res) => res.info.name.toLowerCase().includes(filterText.toLowerCase()))
+                            setFilterResturant(filteredData);
+                        }}>Filter</button>
+                    </div>
 
+                    <button className="filter-btn" onClick={() => { const filterData = resListHook.filter((data) => data.info.avgRating > 4.5); console.log(resListHook); setFilterResturant(filterData) }}>Top Rated Restaurant</button>
+                </div>
+                <div className="res-container">
+                    {filterResturant.map(data => <ResCard key={data.info.id} resData={data} />)}
+
+                </div>
             </div>
-        </div>
     )
 }
 
