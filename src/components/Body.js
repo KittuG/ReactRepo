@@ -2,6 +2,7 @@
 import ResCard from "./ResCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 const Body = () => {
     const [resListHook, setResListHook] = useState([]);
     const [filterText, setFilterText] = useState("");
@@ -32,7 +33,7 @@ const Body = () => {
                     <button className="filter-btn" onClick={() => { const filterData = resListHook.filter((data) => data.info.avgRating > 4.5); console.log(resListHook); setFilterResturant(filterData) }}>Top Rated Restaurant</button>
                 </div>
                 <div className="res-container">
-                    {filterResturant.map(data => <ResCard key={data.info.id} resData={data} />)}
+                    {filterResturant.map(data => <Link to={"/resturants/" + data.info.id} key={data.info.id}><ResCard resData={data} /></Link>)}
 
                 </div>
             </div>
