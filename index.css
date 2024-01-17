@@ -10,3 +10,4 @@
 .filter { padding: 5px; }
 .filter-btn { padding: 5px; cursor: pointer; }
 .login { padding: 0 20px; }
+.user-card { padding: 10px; border: 1px solid #000; }
