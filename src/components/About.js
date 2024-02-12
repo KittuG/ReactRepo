@@ -16,17 +16,16 @@ import React from "react";
 class About extends React.Component {
     constructor(props) {
         super(props);
-        console.log("Hello From Parent Construtor")
+        // console.log("Hello From Parent Construtor")
     }
     componentDidMount() {
-        console.log("Hello From Parent componentDidMount")
+        // console.log("Hello From Parent componentDidMount")
     }
     render() {
-        console.log("Hello From Parent render")
+        // console.log("Hello From Parent render")
         return (
             <div>
                 <UserClass name={"Kritee Sagar - Class"} />
-                <UserClass name={"AKG - Class"} />
                 <h1>About Learning</h1>
             </div>
         )
