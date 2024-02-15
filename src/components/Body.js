@@ -1,11 +1,12 @@
 
-import ResCard from "./ResCard";
+import ResCard, { withPromotedLabel } from "./ResCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
+    const ResCardWithPromotedLabel = withPromotedLabel(ResCard);
     const [resListHook, setResListHook] = useState([]);
     const [filterText, setFilterText] = useState("");
     const [filterResturant, setFilterResturant] = useState([]);
@@ -24,19 +25,21 @@ const Body = () => {
     return (
         resListHook.length === 0 ? <Shimmer /> :
             <div className="body">
-                <div className="filter">
-                    <div>
-                        <input type="text" value={filterText} onChange={(e) => { setFilterText(e.target.value) }}></input>
-                        <button onClick={() => {
+                <div className="flex">
+                    <div className="m-4 p-4">
+                        <input className="border border-solid border-black" type="text" value={filterText} onChange={(e) => { setFilterText(e.target.value) }}></input>
+                        <button className="px-4 py-2 bg-green-50 m-4 rounded-lg" onClick={() => {
                             const filteredData = resListHook.filter((res) => res.info.name.toLowerCase().includes(filterText.toLowerCase()))
                             setFilterResturant(filteredData);
                         }}>Filter</button>
                     </div>
+                    <div className="m-4 p-4 flex items-center">
+                        <button className="px-4 py-2 bg-gray-100 rounded-lg" onClick={() => { const filterData = resListHook.filter((data) => data.info.avgRating > 4.5); console.log(resListHook); setFilterResturant(filterData) }}>Top Rated Restaurant</button>
+                    </div>
 
-                    <button className="filter-btn" onClick={() => { const filterData = resListHook.filter((data) => data.info.avgRating > 4.5); console.log(resListHook); setFilterResturant(filterData) }}>Top Rated Restaurant</button>
                 </div>
-                <div className="res-container">
-                    {filterResturant.map(data => <Link to={"/resturants/" + data.info.id} key={data.info.id}><ResCard resData={data} /></Link>)}
+                <div className="flex flex-wrap">
+                    {filterResturant.map(data => <Link to={"/resturants/" + data.info.id} key={data.info.id}>{data.info.aggregatedDiscountInfoV3 ? <ResCardWithPromotedLabel resData={data} /> : <ResCard resData={data} />}</Link>)}
 
                 </div>
             </div>
